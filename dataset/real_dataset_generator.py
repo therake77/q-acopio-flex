@@ -216,6 +216,11 @@ def _haversine_matrix(coords_a, coords_b):
     return 2 * 6371.0088 * np.arcsin(np.sqrt(h))  # Earth mean radius (km)
 
 
+# Public alias: callers (e.g. the QAOA scripts) can build their own real
+# distance matrices between any two sets of [lat, lon] points.
+haversine_matrix = _haversine_matrix
+
+
 def _stable_unit(text):
     """Deterministic pseudo-value in [0, 1) from a feature name (reproducible)."""
     digest = 0
