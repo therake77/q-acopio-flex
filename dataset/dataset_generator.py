@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 
 class Graph:
 
-    def __init__(self, producers_coords, candidates_coords, markets_coords, supply_s, fixed_cost_f, d_ih, d_hj):
+    def __init__(self, producers_coords, consumers_coords, intermediates_coords, supply_s, fixed_cost_f, d_ih, d_hj):
         self.producers_coords = producers_coords
-        self.candidates_coords = candidates_coords
-        self.markets_coords = markets_coords
+        self.consumers_coords = consumers_coords
+        self.intermediates_coords = intermediates_coords
         self.supply_s = supply_s
         self.fixed_cost_f = fixed_cost_f
         self.d_ih = d_ih
@@ -18,8 +18,8 @@ class Graph:
     def write_to_file(self, filename):
         data = {
             "producers_coords": np.asarray(self.producers_coords).tolist(),
-            "candidates_coords": np.asarray(self.candidates_coords).tolist(),
-            "markets_coords": np.asarray(self.markets_coords).tolist(),
+            "consumers_coords": np.asarray(self.consumers_coords).tolist(),
+            "intermediates_coords": np.asarray(self.intermediates_coords).tolist(),
             "supply_s": np.asarray(self.supply_s).tolist(),
             "fixed_cost_f": np.asarray(self.fixed_cost_f).tolist(),
             "d_ih": np.asarray(self.d_ih).tolist(),
@@ -35,8 +35,8 @@ class Graph:
 
         fields = (
             "producers_coords",
-            "candidates_coords",
-            "markets_coords",
+            "consumers_coords",
+            "intermediates_coords",
             "supply_s",
             "fixed_cost_f",
             "d_ih",
@@ -52,8 +52,8 @@ class Graph:
     def show(self):
         plt.figure(figsize=(10, 8))
         plt.scatter(self.producers_coords[:, 0], self.producers_coords[:, 1], c='blue', label='Producers', s=100)
-        plt.scatter(self.candidates_coords[:, 0], self.candidates_coords[:, 1], c='green', label='Candidates', s=100)
-        plt.scatter(self.markets_coords[:, 0], self.markets_coords[:, 1], c='red', label='Markets', s=100)
+        plt.scatter(self.consumers_coords[:, 0], self.consumers_coords[:, 1], c='green', label='Consumers', s=100)
+        plt.scatter(self.intermediates_coords[:, 0], self.intermediates_coords[:, 1], c='red', label='Intermediates', s=100)
         plt.title('Graph Visualization')
         plt.xlabel('Latitude')
         plt.ylabel('Longitude')
@@ -64,20 +64,20 @@ class Graph:
 np.random.seed(42)
 
 num_producers = 8
-num_candidates = 4      
-num_markets = 2         
+num_consumers = 4
+num_intermediates = 2
 
 producers_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_producers, 2))
-candidates_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_candidates, 2))
-markets_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_markets, 2))
+consumers_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_consumers, 2))
+intermediates_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_intermediates, 2))
 
 supply_s = np.random.randint(10, 50, size=num_producers)       
-fixed_cost_f = np.random.randint(100, 300, size=num_candidates) 
+fixed_cost_f = np.random.randint(100, 300, size=num_consumers)
 
-d_ih = cdist(producers_coords, candidates_coords, metric='euclidean') * 100 
-d_hj = cdist(candidates_coords, markets_coords, metric='euclidean') * 100 
+d_ih = cdist(producers_coords, consumers_coords, metric='euclidean') * 100
+d_hj = cdist(consumers_coords, intermediates_coords, metric='euclidean') * 100
 
-graph = Graph(producers_coords, candidates_coords, markets_coords, supply_s, fixed_cost_f, d_ih, d_hj)
+graph = Graph(producers_coords, consumers_coords, intermediates_coords, supply_s, fixed_cost_f, d_ih, d_hj)
 graph.write_to_file('graph_data.txt')
 
 graph.show()
