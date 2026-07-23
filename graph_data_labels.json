@@ -1,15 +1,19 @@
 {
   "producers": [
     "ALICORP S.A.",
-    "Compania Goodyear del Peru S.A"
+    "Compania Goodyear del Peru S.A",
+    "Tejidos San Jacinto S.A",
+    "Cogorno"
   ],
   "consumers": [
     "Callao",
     "Lima",
-    "Miraflores"
+    "Villa Poeta José Galvéz Barrenechea"
   ],
   "intermediates": [
     "Quimica Suiza",
-    "MANSA Comercial"
+    "MANSA Comercial",
+    "RANSA",
+    "Tracto Camiones USA"
   ]
 }
