@@ -27,12 +27,18 @@ Usage:
 import argparse
 import json
 import os
+import sys
 import time
 import urllib.parse
 import urllib.request
+from pathlib import Path
 
 import numpy as np
 
+# Allow running as a plain script (`python3 dataset/real_dataset_generator.py`)
+# as well as a module (`python3 -m dataset.real_dataset_generator`): make sure
+# the repo root is importable so the `dataset` package resolves either way.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from dataset.dataset_generator import Graph
 
 OVERPASS_MIRRORS = (
@@ -280,7 +286,7 @@ def build_real_graph(place="Lima, Peru", num_producers=4,
     )
     # Real place names for each node. The Graph file format only stores
     # coordinates, so these are kept alongside and written to a sidecar.
-    graph.labels = {
+    graph.labels = {  # type: ignore[attr-defined]
         "producers": [n for n, *_ in roles["producers"]],
         "consumers": [n for n, *_ in roles["consumers"]],
         "intermediates": [n for n, *_ in roles["intermediates"]],
