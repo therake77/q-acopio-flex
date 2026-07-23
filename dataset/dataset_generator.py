@@ -49,6 +49,12 @@ class Graph:
         for field in fields:
             setattr(self, field, np.asarray(data[field]))
 
+    @classmethod
+    def from_file(cls, filename):
+        graph = cls(None, None, None, None, None, None, None)
+        graph.load_from_file(filename)
+        return graph
+
     def show(self):
         plt.figure(figsize=(10, 8))
         plt.scatter(self.producers_coords[:, 0], self.producers_coords[:, 1], c='blue', label='Producers', s=100)
@@ -61,27 +67,26 @@ class Graph:
         plt.grid()
         plt.show()
 
-np.random.seed(42)
+if __name__ == "__main__":
+    np.random.seed(42)
 
-num_producers = 8
-num_consumers = 4
-num_intermediates = 2
+    num_producers = 4 
+    num_consumers = 1
+    num_intermediates = 4
 
-producers_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_producers, 2))
-consumers_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_consumers, 2))
-intermediates_coords = np.random.uniform(low=[4.5, -74.2], high=[4.8, -74.0], size=(num_intermediates, 2))
+    producers_coords = np.random.uniform(low=[4.5, -74.2], high=[4.6, -74.0], size=(num_producers, 2))
+    intermediates_coords = np.random.uniform(low=[4.6, -74.2], high=[4.7, -74.0], size=(num_intermediates, 2))
+    consumers_coords = np.random.uniform(low=[4.7, -74.2], high=[4.8, -74.0], size=(num_consumers, 2))
 
-supply_s = np.random.randint(10, 50, size=num_producers)       
-fixed_cost_f = np.random.randint(100, 300, size=num_consumers)
+    supply_s = np.random.randint(10, 50, size=num_producers)
+    fixed_cost_f = np.random.randint(100, 300, size=num_intermediates)
 
-d_ih = cdist(producers_coords, consumers_coords, metric='euclidean') * 100
-d_hj = cdist(consumers_coords, intermediates_coords, metric='euclidean') * 100
+    d_ih = cdist(producers_coords, consumers_coords, metric='euclidean') * 100
+    d_hj = cdist(consumers_coords, intermediates_coords, metric='euclidean') * 100
 
-graph = Graph(producers_coords, consumers_coords, intermediates_coords, supply_s, fixed_cost_f, d_ih, d_hj)
-graph.write_to_file('graph_data.txt')
+    graph = Graph(producers_coords, consumers_coords, intermediates_coords, supply_s, fixed_cost_f, d_ih, d_hj)
+    graph.write_to_file('graph_data.txt')
+    graph.show()
 
-graph.show()
-
-graph.load_from_file("graph_data.txt")
-
-graph.show()
+    loaded_graph = Graph.from_file("graph_data.txt")
+    loaded_graph.show()

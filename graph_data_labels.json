@@ -1,0 +1,15 @@
+{
+  "producers": [
+    "ALICORP S.A.",
+    "Compania Goodyear del Peru S.A"
+  ],
+  "consumers": [
+    "Callao",
+    "Lima",
+    "Miraflores"
+  ],
+  "intermediates": [
+    "Quimica Suiza",
+    "MANSA Comercial"
+  ]
+}
